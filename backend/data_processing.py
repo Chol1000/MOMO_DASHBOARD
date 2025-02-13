@@ -1,6 +1,7 @@
 import xml.etree.ElementTree as ET
 import re
 import logging
+import sqlite3
 
 # Set up logging
 logging.basicConfig(filename='logs/unprocessed_messages.log', level=logging.INFO)
@@ -92,6 +93,20 @@ def categorize_sms(body):
     
     print(f"Category: {category}, Amount: {amount}, Fee: {fee}, Date: {date}")  # Debug: Print extracted values
     return category, int(amount), fee, date
+
+def save_to_db(transactions):
+    conn = sqlite3.connect("momo_transactions.db")
+    cursor = conn.cursor()
+
+    for txn in transactions:
+        cursor.execute("""
+        INSERT INTO transactions (category, amount, fee, date, body)
+        VALUES (?, ?, ?, ?, ?)
+        """, (txn['category'], txn['amount'], txn['fee'], txn['date'], txn['body']))
+
+    conn.commit()
+    conn.close()
+    print(f"{len(transactions)} transactions insert in database")
 
 if __name__ == "__main__":
     transactions = parse_xml("sms_data.xml")
