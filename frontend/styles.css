@@ -1,0 +1,162 @@
+/* General Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+    line-height: 1.6;
+}
+
+header {
+    background-color: #0a1f44; /* Dark blue */
+    color: white;
+    padding: 30px 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.8rem;
+    font-weight: 600;
+}
+
+header p {
+    margin: 10px 0 0;
+    font-size: 1.2rem;
+    color: #a8c7fa; /* Light blue for contrast */
+}
+
+/* Loading and Error Messages */
+#loading {
+    text-align: center;
+    padding: 20px;
+    font-size: 1.2rem;
+    color: #0a1f44; /* Dark blue */
+}
+
+#error-message {
+    text-align: center;
+    padding: 20px;
+    font-size: 1.2rem;
+    color: #ff0000;
+    background-color: #ffe6e6;
+    border: 1px solid #ff0000;
+    border-radius: 5px;
+    margin: 20px;
+}
+
+/* Filters Section */
+#filters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    padding: 25px;
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+    border-radius: 10px;
+}
+
+#filters input, #filters select, #filters button {
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    flex: 1 1 200px; /* Allow inputs to grow and wrap */
+    transition: all 0.3s ease;
+}
+
+#filters input:focus, #filters select:focus {
+    border-color: #0a1f44; /* Dark blue */
+    outline: none;
+    box-shadow: 0 0 5px rgba(10, 31, 68, 0.3);
+}
+
+#filters button {
+    background-color: #0a1f44; /* Dark blue */
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+#filters button:hover {
+    background-color: #1c3a6b; /* Slightly lighter blue */
+}
+
+/* Charts Section */
+#charts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    padding: 20px;
+}
+
+.chart-container {
+    background-color: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.chart-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+}
+
+.chart-container h2 {
+    margin-top: 0;
+    font-size: 1.6rem;
+    color: #0a1f44; /* Dark blue */
+    font-weight: 600;
+}
+
+/* Transaction Table */
+#transaction-table {
+    padding: 25px;
+    margin: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 14px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #0a1f44; /* Dark blue */
+    color: white;
+    font-weight: 600;
+}
+
+tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 15px;
+    background-color: #0a1f44; /* Dark blue */
+    color: white;
+    position: relative;
+    width: 100%;
+    margin-top: 30px;
+    font-size: 1rem;
+}
+
+footer p {
+    margin: 0;
+}

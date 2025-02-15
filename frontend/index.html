@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MoMo Dashboard for analyzing and visualizing MTN MoMo transactions.">
+    <title>MoMo Dashboard</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <h1>MoMo Transaction Dashboard</h1>
+        <p>Analyze and visualize MTN MoMo transactions.</p>
+    </header>
+
+    <main>
+        <!-- Loading State -->
+        <div id="loading" class="loading-state" aria-live="polite">
+            <p>Loading data...</p>
+        </div>
+
+        <!-- Error Message -->
+        <div id="error-message" class="error-message" aria-live="assertive">
+            <p>Failed to load data. Please try again later.</p>
+        </div>
+
+        <!-- Filters Section -->
+        <section id="filters" aria-labelledby="filters-heading">
+            <h2 id="filters-heading">Transaction Filters</h2>
+            <div class="filter-group">
+                <label for="search">Search Transactions:</label>
+                <input type="text" id="search" placeholder="Search transactions..." aria-label="Search transactions">
+            </div>
+            <div class="filter-group">
+                <label for="type-filter">Filter by Type:</label>
+                <select id="type-filter" aria-label="Filter by transaction type">
+                    <option value="all">All Types</option>
+                    <option value="incoming">Incoming Money</option>
+                    <option value="payment">Payments to Code Holders</option>
+                    <option value="transfer">Transfers to Mobile Numbers</option>
+                    <option value="bank-deposit">Bank Deposits</option>
+                    <option value="airtime">Airtime Bill Payments</option>
+                    <option value="cash-power">Cash Power Bill Payments</option>
+                    <option value="withdrawal">Withdrawals from Agents</option>
+                    <option value="bank-transfer">Bank Transfers</option>
+                    <option value="bundle">Internet and Voice Bundle Purchases</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="date-filter">Filter by Date:</label>
+                <input type="date" id="date-filter" aria-label="Filter by date">
+            </div>
+            <button id="apply-filters" type="button" aria-label="Apply filters">Apply Filters</button>
+        </section>
+
+        <!-- Charts Section -->
+        <section id="charts" aria-labelledby="charts-heading">
+            <h2 id="charts-heading">Transaction Insights</h2>
+            <div class="chart-container">
+                <h3>Transaction Volume by Type</h3>
+                <canvas id="bar-chart" aria-label="Bar chart showing transaction volume by type"></canvas>
+            </div>
+            <div class="chart-container">
+                <h3>Transaction Distribution</h3>
+                <canvas id="pie-chart" aria-label="Pie chart showing transaction distribution"></canvas>
+            </div>
+            <div class="chart-container">
+                <h3>Monthly Transaction Summary</h3>
+                <canvas id="line-chart" aria-label="Line chart showing monthly transaction summary"></canvas>
+            </div>
+        </section>
+
+        <!-- Transaction Table Section -->
+        <section id="transaction-table" aria-labelledby="table-heading">
+            <h2 id="table-heading">Transaction Details</h2>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Type</th>
+                            <th>Amount (RWF)</th>
+                            <th>Sender</th>
+                            <th>Receiver</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <!-- Rows will be populated dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Developed by [Your Name]</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
