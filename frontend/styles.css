@@ -15,7 +15,7 @@ header {
     left: 0;
     width: 100%;
     z-index: 1000;
-    background-color: #0a1f44; /* Dark blue */
+    background-color: #0a1f44;
     color: white;
     padding: 20px;
     text-align: center;
@@ -31,78 +31,12 @@ header h1 {
 header p {
     margin: 10px 0 0;
     font-size: 1.2rem;
-    color: #a8c7fa; /* Light blue for contrast */
+    color: #a8c7fa;
 }
 
 /* Adjust main content padding to account for the fixed header */
 main {
     padding-top: 150px;
-}
-
-/* Loading State */
-#loading {
-    text-align: center;
-    padding: 20px;
-    font-size: 1.2rem;
-    color: #0a1f44; /* Dark blue */
-    display: none; /* Hidden by default */
-}
-
-#loading .spinner {
-    border: 4px solid #f3f3f3;
-    border-top: 4px solid #0a1f44; /* Dark blue */
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    animation: spin 1s linear infinite;
-    margin: 0 auto 10px;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-/* Error Message */
-#error-message {
-    text-align: center;
-    padding: 20px;
-    font-size: 1.2rem;
-    color: #c62828; /* Dark red */
-    background-color: #ffebee; /* Light red */
-    border: 1px solid #c62828;
-    border-radius: 8px;
-    margin: 20px auto;
-    max-width: 800px;
-    display: none; /* Hidden by default */
-}
-
-/* Success Message */
-#success-message {
-    text-align: center;
-    padding: 20px;
-    font-size: 1.2rem;
-    color: #2e7d32; /* Dark green */
-    background-color: #e8f5e9; /* Light green */
-    border: 1px solid #2e7d32;
-    border-radius: 8px;
-    margin: 20px auto;
-    max-width: 800px;
-    display: none; /* Hidden by default */
-}
-
-/* No Data State */
-#no-data {
-    text-align: center;
-    padding: 20px;
-    font-size: 1.2rem;
-    color: #ef6c00; /* Dark orange */
-    background-color: #fff3e0; /* Light orange */
-    border: 1px solid #ef6c00;
-    border-radius: 8px;
-    margin: 20px auto;
-    max-width: 800px;
-    display: none; /* Hidden by default */
 }
 
 /* Filters Section */
@@ -116,44 +50,27 @@ main {
     text-align: center;
 }
 
-#filters h2 {
-    font-size: 1.8rem;
-    color: #0a1f44; /* Dark blue */
-    margin-bottom: 25px;
-    font-weight: 600;
-}
-
-/* Filters Container */
 .filters-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 50px; /* Equal spacing between all elements */
+    gap: 20px;
     justify-content: center;
-    align-items: flex-end; /* Align items at the bottom */
 }
 
 .filter-group {
     flex: 1;
-    min-width: 150px; /* Reduced minimum width */
-    max-width: 200px; /* Reduced maximum width */
+    min-width: 150px;
+    max-width: 200px;
     text-align: left;
 }
 
 .filter-group label {
     display: block;
     font-size: 1rem;
-    color: #555;
     margin-bottom: 8px;
-    font-weight: 500;
 }
 
-/* Search Transactions Container */
-.search-group {
-    flex: 2; /* Allow search group to take more space */
-    min-width: 250px; /* Adjusted width for search */
-}
-
-#search {
+#search, #type-filter, #date-filter {
     width: 100%;
     padding: 12px;
     font-size: 1rem;
@@ -163,120 +80,49 @@ main {
     background-color: #f9f9f9;
 }
 
-#search:focus {
-    border-color: #0a1f44; /* Dark blue */
-    outline: none;
-    box-shadow: 0 0 8px rgba(10, 31, 68, 0.2);
-    background-color: white;
-}
-
-/* Apply Filters Button */
-.apply-group {
-    flex: 0 0 auto; /* Do not grow or shrink */
-    align-self: flex-end; /* Align button at the bottom */
-    min-width: 150px; /* Reduced width for Apply Filters button */
+#apply-filters, #reset-filters {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 #apply-filters {
-    width: 100%; /* Full width of the container */
-    padding: 12px;
-    font-size: 1rem;
-    border: none;
-    border-radius: 8px;
-    background-color: #0a1f44; /* Dark blue */
+    background-color: #0a1f44;
     color: white;
-    cursor: pointer;
-    font-weight: 600;
-    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 #apply-filters:hover {
-    background-color: #1c3a6b; /* Slightly lighter blue */
+    background-color: #1c3a6b;
     transform: translateY(-2px);
-}
-
-#apply-filters:active {
-    transform: translateY(0);
-}
-
-/* Filter by Type and Date */
-#type-filter, #date-filter {
-    padding: 12px;
-    font-size: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    width: 100%;
-    transition: all 0.3s ease;
-    background-color: #f9f9f9;
-}
-
-#type-filter:focus, #date-filter:focus {
-    border-color: #0a1f44; /* Dark blue */
-    outline: none;
-    box-shadow: 0 0 8px rgba(10, 31, 68, 0.2);
-    background-color: white;
-}
-
-/* Reset Filters Button */
-.reset-container {
-    text-align: center;
-    margin-top: 20px;
 }
 
 #reset-filters {
-    padding: 12px 25px;
-    font-size: 1rem;
-    border: none;
-    border-radius: 8px;
-    background-color: #ff6b6b; /* Red */
+    background-color: #ff6b6b;
     color: white;
-    cursor: pointer;
-    font-weight: 600;
-    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 #reset-filters:hover {
-    background-color: #ff5252; /* Lighter red */
+    background-color: #ff5252;
     transform: translateY(-2px);
 }
 
-#reset-filters:active {
-    transform: translateY(0);
-}
-
 /* Charts Section */
-#charts {
-    max-width: 1200px;
-    margin: 20px auto;
-    padding: 20px;
-    text-align: center;
-}
-
-#charts h2 {
-    font-size: 1.8rem;
-    color: #0a1f44; /* Dark blue */
-    margin-bottom: 20px;
-}
-
 .chart-container {
     background-color: white;
     padding: 25px;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
     margin-bottom: 25px;
 }
 
 .chart-container:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
-}
-
-.chart-container h3 {
-    margin-top: 0;
-    font-size: 1.4rem;
-    color: #0a1f44; /* Dark blue */
-    font-weight: 600;
 }
 
 /* Transaction Table */
@@ -290,17 +136,6 @@ main {
     text-align: center;
 }
 
-#transaction-table h2 {
-    font-size: 1.8rem;
-    color: #0a1f44; /* Dark blue */
-    margin-bottom: 20px;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
 th, td {
     padding: 14px;
     text-align: left;
@@ -308,7 +143,7 @@ th, td {
 }
 
 th {
-    background-color: #0a1f44; /* Dark blue */
+    background-color: #0a1f44;
     color: white;
     font-weight: 600;
 }
@@ -317,38 +152,10 @@ tr:hover {
     background-color: #f8f9fa;
 }
 
-/* Footer */
-footer {
-    text-align: center;
-    padding: 15px;
-    background-color: #0a1f44; /* Dark blue */
-    color: white;
-    position: relative;
-    width: 100%;
-    margin-top: 30px;
-    font-size: 1rem;
-}
-
-footer p {
-    margin: 0;
-}
-
 /* Responsive Design */
-@media (max-width: 1200px) {
-    #filters, #charts, #transaction-table {
-        margin: 20px 300px; /* 300px margins on both sides */
-    }
-}
-
-@media (max-width: 992px) {
-    #filters, #charts, #transaction-table {
-        margin: 20px 150px; /* Adjust margins for smaller screens */
-    }
-}
-
 @media (max-width: 768px) {
     #filters, #charts, #transaction-table {
-        margin: 20px 50px; /* Adjust margins for tablets */
+        margin: 20px;
     }
 
     header h1 {
@@ -358,34 +165,5 @@ footer p {
     header p {
         font-size: 1rem;
     }
-
-    .filter-group {
-        max-width: 100%;
-    }
 }
 
-@media (max-width: 576px) {
-    #filters, #charts, #transaction-table {
-        margin: 20px 20px; /* Adjust margins for mobile */
-    }
-
-    header h1 {
-        font-size: 1.8rem;
-    }
-
-    header p {
-        font-size: 0.9rem;
-    }
-
-    #filters input, #filters select, #filters button {
-        font-size: 0.9rem;
-    }
-
-    #charts h2, #transaction-table h2 {
-        font-size: 1.5rem;
-    }
-
-    th, td {
-        padding: 10px;
-    }
-}

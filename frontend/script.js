@@ -1,164 +1,119 @@
+import { renderCharts } from './chart.js';
+
 // DOM Elements
 const loadingElement = document.getElementById('loading');
 const errorMessageElement = document.getElementById('error-message');
+const successMessageElement = document.getElementById('success-message');
+const noDataElement = document.getElementById('no-data');
 const searchInput = document.getElementById('search');
 const typeFilter = document.getElementById('type-filter');
-const dateFilter = document.getElementById('date-filter');
+const startDateFilter = document.getElementById('start-date');
+const endDateFilter = document.getElementById('end-date');
 const applyFiltersButton = document.getElementById('apply-filters');
+const resetFiltersButton = document.getElementById('reset-filters');
 const tableBody = document.getElementById('table-body');
 
-// Global Variables
-let transactions = []; // Store all transactions for filtering
-let barChart, pieChart, lineChart; // Chart instances
+let transactions = [];
 
-// Fetch Transactions from the backend
+// Fetch transactions from backend
 async function fetchTransactions() {
+    loadingElement.style.display = 'block';
+    errorMessageElement.style.display = 'none';
+    successMessageElement.style.display = 'none';
+    noDataElement.style.display = 'none';
+
     try {
-        loadingElement.style.display = 'block'; // Show loading state
-        errorMessageElement.style.display = 'none'; // Hide error message
-
-        const response = await fetch("http://localhost:5000/api/transactions");
-        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-
+        const response = await fetch('/frontend/transactions.json'); // Ensure correct path
+        if (!response.ok) throw new Error('Failed to load transactions');
+        
         transactions = await response.json();
-        renderTable(transactions);
-        renderCharts(transactions);
+        renderData(transactions);
+        showSuccess("Data loaded successfully!");
     } catch (error) {
-        console.error("Error fetching transactions:", error);
-        errorMessageElement.style.display = 'block'; // Show error message
+        console.error("Error loading transactions:", error);
+        errorMessageElement.textContent = "Error loading transactions. Please try again later.";
+        errorMessageElement.style.display = 'block';
     } finally {
-        loadingElement.style.display = 'none'; // Hide loading state
+        loadingElement.style.display = 'none';
     }
 }
 
-// Render Table with transaction data
-function renderTable(data) {
-    tableBody.innerHTML = data.map(transaction => `
-        <tr>
-            <td>${transaction.id}</td>
-            <td>${transaction.type}</td>
-            <td>${transaction.amount}</td>
-            <td>${transaction.sender}</td>
-            <td>${transaction.receiver}</td>
-            <td>${transaction.date}</td>
-        </tr>
-    `).join('');
+// Render Table and Charts
+function renderData(data) {
+    renderTable(data);
+    renderCharts(data);
 }
 
-// Render Charts using Chart.js
-function renderCharts(data) {
-    const labels = data.map(t => t.date);
-    const amounts = data.map(t => t.amount);
-    const types = [...new Set(data.map(t => t.type))]; // Unique transaction types
-
-    // Destroy existing charts if they exist
-    if (barChart) barChart.destroy();
-    if (pieChart) pieChart.destroy();
-    if (lineChart) lineChart.destroy();
-
-    // Bar Chart (Transaction Volume by Type)
-    const ctxBar = document.getElementById('bar-chart').getContext('2d');
-    barChart = new Chart(ctxBar, {
-        type: 'bar',
-        data: {
-            labels: types,
-            datasets: [{
-                label: 'Transaction Amount (RWF)',
-                data: types.map(type => data.filter(t => t.type === type).reduce((sum, t) => sum + t.amount, 0)),
-                backgroundColor: 'rgba(10, 31, 68, 0.6)', // Dark blue
-                borderColor: 'rgba(10, 31, 68, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-
-    // Pie Chart (Transaction Distribution)
-    const ctxPie = document.getElementById('pie-chart').getContext('2d');
-    pieChart = new Chart(ctxPie, {
-        type: 'pie',
-        data: {
-            labels: types,
-            datasets: [{
-                label: 'Transaction Types',
-                data: types.map(type => data.filter(t => t.type === type).length),
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.6)',
-                    'rgba(54, 162, 235, 0.6)',
-                    'rgba(255, 206, 86, 0.6)',
-                    'rgba(75, 192, 192, 0.6)',
-                    'rgba(153, 102, 255, 0.6)',
-                    'rgba(255, 159, 64, 0.6)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
-                borderWidth: 1
-            }]
-        }
-    });
-
-    // Line Chart (Monthly Transaction Summary)
-    const ctxLine = document.getElementById('line-chart').getContext('2d');
-    lineChart = new Chart(ctxLine, {
-        type: 'line',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: 'Transaction Amount (RWF)',
-                data: amounts,
-                backgroundColor: 'rgba(10, 31, 68, 0.2)', // Dark blue
-                borderColor: 'rgba(10, 31, 68, 1)',
-                borderWidth: 1,
-                fill: true
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
+// Render Table with Transaction Data
+function renderTable(data) {
+    tableBody.innerHTML = '';
+    if (data.length === 0) {
+        noDataElement.style.display = 'block';
+    } else {
+        noDataElement.style.display = 'none';
+        tableBody.innerHTML = data.map(transaction => `
+            <tr>
+                <td>${transaction.id}</td>
+                <td>${transaction.category}</td>
+                <td>${transaction.amount.toLocaleString()} RWF</td>
+                <td>${transaction.fee.toLocaleString()} RWF</td>
+                <td>${new Date(transaction.date).toLocaleString()}</td>
+            </tr>
+        `).join('');
+    }
 }
 
 // Filter Transactions
 function filterTransactions() {
     const searchTerm = searchInput.value.toLowerCase();
     const selectedType = typeFilter.value;
-    const selectedDate = dateFilter.value;
+    const startDate = startDateFilter.value ? new Date(startDateFilter.value) : null;
+    const endDate = endDateFilter.value ? new Date(endDateFilter.value) : null;
 
-    const filteredData = transactions.filter(transaction => {
-        const matchesSearch = transaction.sender.toLowerCase().includes(searchTerm) ||
-                             transaction.receiver.toLowerCase().includes(searchTerm) ||
-                             transaction.type.toLowerCase().includes(searchTerm);
-        const matchesType = selectedType === 'all' || transaction.type === selectedType;
-        const matchesDate = !selectedDate || transaction.date.startsWith(selectedDate);
+    let filteredData = transactions.filter(transaction => {
+        const matchesSearch = searchTerm ? 
+            transaction.category?.toLowerCase().includes(searchTerm) 
+            : true;
+        
+        const matchesType = selectedType !== 'all' ? transaction.category === selectedType : true;
+        
+        const transactionDate = new Date(transaction.date);
+        const matchesDate = startDate && endDate ? transactionDate >= startDate && transactionDate <= endDate : true;
 
         return matchesSearch && matchesType && matchesDate;
     });
 
-    renderTable(filteredData);
-    renderCharts(filteredData);
+    renderData(filteredData);
+    showSuccess("Filters applied successfully!");
+}
+
+// Reset Filters
+function resetFilters() {
+    searchInput.value = '';
+    typeFilter.value = 'all';
+    startDateFilter.value = '';
+    endDateFilter.value = '';
+    renderData(transactions);
+    showSuccess("Filters reset successfully!");
+}
+
+// Show Success Message
+function showSuccess(message) {
+    successMessageElement.textContent = message;
+    successMessageElement.style.display = 'block';
+    errorMessageElement.style.display = 'none';
+    setTimeout(() => successMessageElement.style.display = 'none', 3000);
 }
 
 // Event Listeners
-searchInput.addEventListener('input', filterTransactions);
-typeFilter.addEventListener('change', filterTransactions);
-dateFilter.addEventListener('change', filterTransactions);
-applyFiltersButton.addEventListener('click', filterTransactions);
+document.addEventListener('DOMContentLoaded', () => {
+    searchInput.addEventListener('input', filterTransactions);
+    typeFilter.addEventListener('change', filterTransactions);
+    startDateFilter.addEventListener('change', filterTransactions);
+    endDateFilter.addEventListener('change', filterTransactions);
+    applyFiltersButton.addEventListener('click', filterTransactions);
+    resetFiltersButton.addEventListener('click', resetFilters);
+    
+    fetchTransactions();
+});
 
-// Fetch and display data on page load
-fetchTransactions();

@@ -19,40 +19,32 @@
     </header>
 
     <main id="main-content">
-        <!-- Loading State -->
         <div id="loading" class="loading-state" aria-live="polite">
             <div class="spinner"></div>
             <p>Loading data...</p>
         </div>
 
-        <!-- Error Message -->
         <div id="error-message" class="error-message" aria-live="assertive">
             <p>Failed to load data. Please try again later.</p>
         </div>
 
-        <!-- Success Message -->
         <div id="success-message" class="success-message" aria-live="assertive">
             <p>Data loaded successfully!</p>
         </div>
 
-        <!-- No Data State -->
         <div id="no-data" class="no-data-state" aria-live="polite">
             <p>No transactions found matching your filters.</p>
         </div>
 
-        <!-- Filters Section -->
         <section id="filters" aria-labelledby="filters-heading">
             <h2 id="filters-heading">Transaction Filters</h2>
 
-            <!-- Filters Container -->
             <div class="filters-container">
-                <!-- Search Transactions -->
                 <div class="filter-group search-group">
                     <label for="search">Search Transactions:</label>
                     <input type="text" id="search" placeholder="Search transactions..." aria-label="Search transactions">
                 </div>
 
-                <!-- Filter by Type -->
                 <div class="filter-group">
                     <label for="type-filter">Filter by Type:</label>
                     <select id="type-filter" aria-label="Filter by transaction type">
@@ -69,25 +61,26 @@
                     </select>
                 </div>
 
-                <!-- Filter by Date -->
                 <div class="filter-group">
-                    <label for="date-filter">Filter by Date:</label>
-                    <input type="date" id="date-filter" aria-label="Filter by date">
+                    <label for="start-date">Start Date:</label>
+                    <input type="date" id="start-date" aria-label="Start date">
                 </div>
 
-                <!-- Apply Filters Button -->
+                <div class="filter-group">
+                    <label for="end-date">End Date:</label>
+                    <input type="date" id="end-date" aria-label="End date">
+                </div>
+
                 <div class="filter-group apply-group">
                     <button id="apply-filters" type="button" aria-label="Apply filters">Apply Filters</button>
                 </div>
             </div>
 
-            <!-- Reset Filters Button -->
             <div class="reset-container">
                 <button id="reset-filters" type="button" aria-label="Reset filters">Reset Filters</button>
             </div>
         </section>
 
-        <!-- Charts Section -->
         <section id="charts" aria-labelledby="charts-heading">
             <h2 id="charts-heading">Transaction Insights</h2>
             <div class="chart-container">
@@ -107,7 +100,6 @@
             </div>
         </section>
 
-        <!-- Transaction Table Section -->
         <section id="transaction-table" aria-labelledby="table-heading">
             <h2 id="table-heading">Transaction Details</h2>
             <div class="table-wrapper">
@@ -138,3 +130,4 @@
     <script src="script.js" defer></script>
 </body>
 </html>
+
