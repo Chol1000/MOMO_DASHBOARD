@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="MoMo Dashboard for analyzing and visualizing MTN MoMo transactions.">
     <title>MoMo Dashboard</title>
@@ -10,14 +11,17 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
     <header>
         <h1>MoMo Transaction Dashboard</h1>
         <p>Analyze and visualize MTN MoMo transactions.</p>
     </header>
 
-    <main>
+    <main id="main-content">
         <!-- Loading State -->
         <div id="loading" class="loading-state" aria-live="polite">
+            <div class="spinner"></div>
             <p>Loading data...</p>
         </div>
 
@@ -26,33 +30,61 @@
             <p>Failed to load data. Please try again later.</p>
         </div>
 
+        <!-- Success Message -->
+        <div id="success-message" class="success-message" aria-live="assertive">
+            <p>Data loaded successfully!</p>
+        </div>
+
+        <!-- No Data State -->
+        <div id="no-data" class="no-data-state" aria-live="polite">
+            <p>No transactions found matching your filters.</p>
+        </div>
+
         <!-- Filters Section -->
         <section id="filters" aria-labelledby="filters-heading">
             <h2 id="filters-heading">Transaction Filters</h2>
-            <div class="filter-group">
-                <label for="search">Search Transactions:</label>
-                <input type="text" id="search" placeholder="Search transactions..." aria-label="Search transactions">
+
+            <!-- Filters Container -->
+            <div class="filters-container">
+                <!-- Search Transactions -->
+                <div class="filter-group search-group">
+                    <label for="search">Search Transactions:</label>
+                    <input type="text" id="search" placeholder="Search transactions..." aria-label="Search transactions">
+                </div>
+
+                <!-- Filter by Type -->
+                <div class="filter-group">
+                    <label for="type-filter">Filter by Type:</label>
+                    <select id="type-filter" aria-label="Filter by transaction type">
+                        <option value="all">All Types</option>
+                        <option value="incoming">Incoming Money</option>
+                        <option value="payment">Payments to Code Holders</option>
+                        <option value="transfer">Transfers to Mobile Numbers</option>
+                        <option value="bank-deposit">Bank Deposits</option>
+                        <option value="airtime">Airtime Bill Payments</option>
+                        <option value="cash-power">Cash Power Bill Payments</option>
+                        <option value="withdrawal">Withdrawals from Agents</option>
+                        <option value="bank-transfer">Bank Transfers</option>
+                        <option value="bundle">Internet and Voice Bundle Purchases</option>
+                    </select>
+                </div>
+
+                <!-- Filter by Date -->
+                <div class="filter-group">
+                    <label for="date-filter">Filter by Date:</label>
+                    <input type="date" id="date-filter" aria-label="Filter by date">
+                </div>
+
+                <!-- Apply Filters Button -->
+                <div class="filter-group apply-group">
+                    <button id="apply-filters" type="button" aria-label="Apply filters">Apply Filters</button>
+                </div>
             </div>
-            <div class="filter-group">
-                <label for="type-filter">Filter by Type:</label>
-                <select id="type-filter" aria-label="Filter by transaction type">
-                    <option value="all">All Types</option>
-                    <option value="incoming">Incoming Money</option>
-                    <option value="payment">Payments to Code Holders</option>
-                    <option value="transfer">Transfers to Mobile Numbers</option>
-                    <option value="bank-deposit">Bank Deposits</option>
-                    <option value="airtime">Airtime Bill Payments</option>
-                    <option value="cash-power">Cash Power Bill Payments</option>
-                    <option value="withdrawal">Withdrawals from Agents</option>
-                    <option value="bank-transfer">Bank Transfers</option>
-                    <option value="bundle">Internet and Voice Bundle Purchases</option>
-                </select>
+
+            <!-- Reset Filters Button -->
+            <div class="reset-container">
+                <button id="reset-filters" type="button" aria-label="Reset filters">Reset Filters</button>
             </div>
-            <div class="filter-group">
-                <label for="date-filter">Filter by Date:</label>
-                <input type="date" id="date-filter" aria-label="Filter by date">
-            </div>
-            <button id="apply-filters" type="button" aria-label="Apply filters">Apply Filters</button>
         </section>
 
         <!-- Charts Section -->
@@ -60,15 +92,18 @@
             <h2 id="charts-heading">Transaction Insights</h2>
             <div class="chart-container">
                 <h3>Transaction Volume by Type</h3>
-                <canvas id="bar-chart" aria-label="Bar chart showing transaction volume by type"></canvas>
+                <canvas id="bar-chart" aria-describedby="bar-chart-desc"></canvas>
+                <p id="bar-chart-desc" class="visually-hidden">Bar chart showing transaction volume by type.</p>
             </div>
             <div class="chart-container">
                 <h3>Transaction Distribution</h3>
-                <canvas id="pie-chart" aria-label="Pie chart showing transaction distribution"></canvas>
+                <canvas id="pie-chart" aria-describedby="pie-chart-desc"></canvas>
+                <p id="pie-chart-desc" class="visually-hidden">Pie chart showing transaction distribution.</p>
             </div>
             <div class="chart-container">
                 <h3>Monthly Transaction Summary</h3>
-                <canvas id="line-chart" aria-label="Line chart showing monthly transaction summary"></canvas>
+                <canvas id="line-chart" aria-describedby="line-chart-desc"></canvas>
+                <p id="line-chart-desc" class="visually-hidden">Line chart showing monthly transaction summary.</p>
             </div>
         </section>
 
@@ -77,6 +112,7 @@
             <h2 id="table-heading">Transaction Details</h2>
             <div class="table-wrapper">
                 <table>
+                    <caption>List of transactions processed through MTN MoMo</caption>
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -96,9 +132,9 @@
     </main>
 
     <footer>
-        <p>Developed by [Your Name]</p>
+        <p>Developed by Group 29</p>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 </body>
 </html>
